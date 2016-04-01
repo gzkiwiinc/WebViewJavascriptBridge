@@ -10,15 +10,9 @@
 
 #if defined(supportsWKWebKit)
 
-#if __has_feature(objc_arc_weak)
-#define WVJB_WEAK __weak
-#else
-#define WVJB_WEAK __unsafe_unretained
-#endif
-
 @implementation WKWebViewJavascriptBridge {
-    WVJB_WEAK WKWebView* _webView;
-    WVJB_WEAK id _webViewDelegate;
+    __weak WKWebView* _webView;
+    __weak id _webViewDelegate;
     long _uniqueId;
     WebViewJavascriptBridgeBase *_base;
 }
