@@ -91,10 +91,11 @@
 - (void) _platformSpecificSetup:(WVJB_WEBVIEW_TYPE*)webView webViewDelegate:(WVJB_WEBVIEW_DELEGATE_TYPE*)webViewDelegate handler:(WVJBHandler)messageHandler resourceBundle:(NSBundle*)bundle{
     _webView = webView;
     _webViewDelegate = webViewDelegate;
-    
+
     _webView.frameLoadDelegate = self;
     _webView.resourceLoadDelegate = self;
     _webView.policyDelegate = self;
+    
     
     _base = [[WebViewJavascriptBridgeBase alloc] initWithHandler:(WVJBHandler)messageHandler resourceBundle:(NSBundle*)bundle];
     _base.delegate = self;
