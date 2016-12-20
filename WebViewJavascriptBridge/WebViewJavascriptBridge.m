@@ -33,6 +33,10 @@
     return bridge;
 }
 
+-(void)setupWhitelist:(NSMutableArray *)list {
+    _base.whitelist = list;
+}
+
 - (void)setWebViewDelegate:(WVJB_WEBVIEW_DELEGATE_TYPE*)webViewDelegate {
     _webViewDelegate = webViewDelegate;
 }

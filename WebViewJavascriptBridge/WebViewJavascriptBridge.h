@@ -30,6 +30,7 @@
 + (void)setLogMaxLength:(int)length;
 
 - (void)registerHandler:(NSString*)handlerName handler:(WVJBHandler)handler;
+- (void)setupWhitelist:(NSMutableArray*)list;
 - (void)callHandler:(NSString*)handlerName;
 - (void)callHandler:(NSString*)handlerName data:(id)data;
 - (void)callHandler:(NSString*)handlerName data:(id)data responseCallback:(WVJBResponseCallback)responseCallback;

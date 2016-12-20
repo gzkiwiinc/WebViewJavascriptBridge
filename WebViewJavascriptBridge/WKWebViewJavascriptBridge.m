@@ -29,6 +29,10 @@
     return bridge;
 }
 
+-(void)setupWhitelist:(NSMutableArray *)list {
+    _base.whitelist = list;
+}
+
 - (void)send:(id)data {
     [self send:data responseCallback:nil];
 }
@@ -140,14 +144,28 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     __strong typeof(_webViewDelegate) strongDelegate = _webViewDelegate;
 
     if ([_base isCorrectProcotocolScheme:url]) {
-        if ([_base isBridgeLoadedURL:url]) {
-            [_base injectJavascriptFile];
-        } else if ([_base isQueueMessageURL:url]) {
-            [self WKFlushMessageQueue];
-        } else {
-            [_base logUnkownMessage:url];
-        }
-        decisionHandler(WKNavigationActionPolicyCancel);
+            if ([_base isBridgeLoadedURL:url]) {
+                [_base injectJavascriptFile];
+                decisionHandler(WKNavigationActionPolicyCancel);
+            } else if ([_base isQueueMessageURL:url]) {
+                [self WKFlushMessageQueue];
+                decisionHandler(WKNavigationActionPolicyCancel);
+            } else if( _base.whitelist.count > 0 ){
+                BOOL allow;
+                for ( NSString * hostName in _base.whitelist) {
+                    if ( [url.host isEqualToString:hostName] ) {
+                        allow = YES;
+                    }
+                }
+                if (allow) {
+                    decisionHandler(WKNavigationActionPolicyAllow);
+                }else{
+                    decisionHandler(WKNavigationActionPolicyCancel);
+                }
+            }else{
+                [_base logUnkownMessage:url];
+                decisionHandler(WKNavigationActionPolicyCancel);
+            }
     }
     
     if (strongDelegate && [strongDelegate respondsToSelector:@selector(webView:decidePolicyForNavigationAction:decisionHandler:)]) {

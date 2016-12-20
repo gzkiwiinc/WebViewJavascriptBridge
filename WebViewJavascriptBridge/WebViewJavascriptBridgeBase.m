@@ -24,6 +24,7 @@ static int logMaxLength = 500;
     self = [super init];
     self.messageHandlers = [NSMutableDictionary dictionary];
     self.startupMessageQueue = [NSMutableArray array];
+    self.whitelist = [NSMutableArray array];
     self.responseCallbacks = [NSMutableDictionary dictionary];
     _uniqueId = 0;
     return(self);
