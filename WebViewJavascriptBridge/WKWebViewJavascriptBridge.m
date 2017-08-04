@@ -166,12 +166,16 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
                 [_base logUnkownMessage:url];
                 decisionHandler(WKNavigationActionPolicyCancel);
             }
+            // Running WebViewJavaScriptBridge in iOS 11, especially iPhone 7 Plus, iPad Pro 10" may crash without return
+            // It cause by NSInternalInconsistencyException
+            return;
     }
     
     if (strongDelegate && [strongDelegate respondsToSelector:@selector(webView:decidePolicyForNavigationAction:decisionHandler:)]) {
         [_webViewDelegate webView:webView decidePolicyForNavigationAction:navigationAction decisionHandler:decisionHandler];
     } else {
         decisionHandler(WKNavigationActionPolicyAllow);
+        return;
     }
 }
 
