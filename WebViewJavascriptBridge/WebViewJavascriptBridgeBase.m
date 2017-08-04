@@ -123,7 +123,7 @@ static int logMaxLength = 500;
 }
 
 -(BOOL)isCorrectProcotocolScheme:(NSURL*)url {
-    if([[url scheme] isEqualToString:kCustomProtocolScheme]){
+    if([[url scheme] isEqualToString:kHttpProtocolScheme] || [[url scheme] isEqualToString:kHttpsProtocolScheme] ){
         return YES;
     } else {
         return NO;
@@ -139,7 +139,7 @@ static int logMaxLength = 500;
 }
 
 -(BOOL)isBridgeLoadedURL:(NSURL*)url {
-    return ([[url scheme] isEqualToString:kCustomProtocolScheme] && [[url host] isEqualToString:kBridgeLoaded]);
+    return (([[url scheme] isEqualToString:kHttpProtocolScheme] || [[url scheme] isEqualToString:kHttpsProtocolScheme] ) && [[url host] isEqualToString:kBridgeLoaded]);
 }
 
 -(void)logUnkownMessage:(NSURL*)url {
